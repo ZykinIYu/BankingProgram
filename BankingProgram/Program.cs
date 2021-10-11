@@ -10,6 +10,8 @@ namespace BankingProgram
     {
         static void Main(string[] args)
         {
+            WorkProcess start = new WorkProcess();
+            start.Start();
         }
     }
 }
