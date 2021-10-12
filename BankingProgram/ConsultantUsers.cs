@@ -33,6 +33,7 @@ namespace BankingProgram
         public string Surname
         {
             get { return this.surname; }
+            set { this.surname = value; }
         }
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace BankingProgram
         public string Name
         {
             get { return this.name; }
+            set { this.name = value; }
         }
 
         /// <summary>
@@ -59,6 +61,7 @@ namespace BankingProgram
         public string MiddleName
         {
             get { return this.middleName; }
+            set { this.middleName = value; }
         }
 
         /// <summary>
@@ -79,6 +82,15 @@ namespace BankingProgram
         /// Серия и номер пспорта пользователя
         /// </summary>
         private string seriesNumberPassport;
+
+        /// <summary>
+        /// Свойство чтения и записи номера телефона
+        /// </summary>
+        public string SeriesNumberPassport
+        {
+            get { return this.seriesNumberPassport; }
+            set { this.seriesNumberPassport = value; }
+        }
 
         /// <summary>
         /// Конструктор пользователей
@@ -102,7 +114,7 @@ namespace BankingProgram
         /// <summary>
         /// Метод печати элементов
         /// </summary>
-        public string Print()
+        public virtual string Print()
         {
             return $"{id}\t{surname}\t{name}\t{middleName}\t{phoneNumber}\t{HidingSeriesAndNumberPassport()}";
         }
@@ -126,12 +138,18 @@ namespace BankingProgram
         /// <summary>
         /// Метод корректировки параметров пользователя
         /// </summary>
-        /// <param name="id">идентификатор пользователя, у которого меняем параметры</param>
-        /// <param name="newParameterValue">новое значение параметра</param>
-        /// <param name="user">Имя инициализированной коллекции</param>
-        public void ParameterСhange(ulong id, string newParameterValue, List<ConsultantUsers> user)
+        /// <param name="id">Идентификатор</param>
+        /// <param name="Surname">Фамилия</param>
+        /// <param name="Name">Имя</param>
+        /// <param name="MiddleName">Отчество</param>
+        /// <param name="PhoneNumber">Номер телефона</param>
+        /// <param name="SeriesNumberPassport">Серия и номер паспорта</param>
+        /// <param name="user">Коллекция пользователей для консультанта</param>
+        /// <param name="userM">Коллекция пользователей для менеджера</param>
+        public virtual void ParameterСhange(ulong id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, List<ConsultantUsers> user, List<Manager> userM)
         {
-            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = newParameterValue);
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = PhoneNumber);
+            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = PhoneNumber);
         }
     }
 }
