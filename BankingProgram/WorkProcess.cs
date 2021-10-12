@@ -8,6 +8,7 @@ namespace BankingProgram
 {
     class WorkProcess
     {
+        ConsultantUsers cu;
         List<ConsultantUsers> user;
         private ulong id;
         Random randomize;
@@ -145,7 +146,13 @@ namespace BankingProgram
 
                 if (newParameterValue.Length == 11 && newParameterValue.All(char.IsDigit) == true)
                 {
-                    user.FindAll(us => us.Id == Convert.ToUInt64(correctedUser)).ForEach(us => us.PhoneNumber = newParameterValue);
+                    for (int i = 0; i < user.Count; i++)
+                    {
+                        if (user[i].Id == Convert.ToUInt64(correctedUser))
+                        {
+                            user[i].ParameterСhange(Convert.ToUInt64(correctedUser), newParameterValue, user);
+                        }
+                    }
                 }
                 else
                 {

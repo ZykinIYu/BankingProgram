@@ -123,5 +123,15 @@ namespace BankingProgram
             }
         }
 
+        /// <summary>
+        /// Метод корректировки параметров пользователя
+        /// </summary>
+        /// <param name="id">идентификатор пользователя, у которого меняем параметры</param>
+        /// <param name="newParameterValue">новое значение параметра</param>
+        /// <param name="user">Имя инициализированной коллекции</param>
+        public void ParameterСhange(ulong id, string newParameterValue, List<ConsultantUsers> user)
+        {
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = newParameterValue);
+        }
     }
 }
