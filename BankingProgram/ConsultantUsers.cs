@@ -16,11 +16,11 @@ namespace BankingProgram
         /// <summary>
         /// Свойство чтения и записи идентификатора
         /// </summary>
-        public ulong Id
-        {
-            get { return this.id; }
-            set { this.id = value; }
-        }
+        public ulong Id { get; set; }
+        //{
+        //    get { return this.id; }
+        //    set { this.id = value; }
+        //}
 
         /// <summary>
         /// Фамилия пользователя
@@ -30,11 +30,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство для чтения фамилии пользователя
         /// </summary>
-        public string Surname
-        {
-            get { return this.surname; }
-            set { this.surname = value; }
-        }
+        public string Surname { get; set; }
 
         /// <summary>
         /// Имя пользователя
@@ -44,11 +40,7 @@ namespace BankingProgram
         /// <summary>
         /// свойствр для чтения имени пользователя
         /// </summary>
-        public string Name
-        {
-            get { return this.name; }
-            set { this.name = value; }
-        }
+        public string Name { get; set; }
 
         /// <summary>
         /// Фамилия пользователя
@@ -58,11 +50,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство для чтения фамилии пользователя
         /// </summary>
-        public string MiddleName
-        {
-            get { return this.middleName; }
-            set { this.middleName = value; }
-        }
+        public string MiddleName { get; set; }
 
         /// <summary>
         /// Номер телефона пользователя
@@ -72,11 +60,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство чтения и записи номера телефона
         /// </summary>
-        public string PhoneNumber
-        {
-            get { return this.phoneNumber; }
-            set { this.phoneNumber = value; }
-        }
+        public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Серия и номер пспорта пользователя
@@ -86,11 +70,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство чтения и записи номера телефона
         /// </summary>
-        public string SeriesNumberPassport
-        {
-            get { return this.seriesNumberPassport; }
-            set { this.seriesNumberPassport = value; }
-        }
+        public string SeriesNumberPassport { get; set; }
 
         /// <summary>
         /// Конструктор пользователей
