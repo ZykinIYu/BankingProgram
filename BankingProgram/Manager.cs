@@ -8,8 +8,22 @@ namespace BankingProgram
 {
     class Manager : ConsultantUsers
     {
-        public Manager(ulong Id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport)
-            : base (Id, Surname, Name, MiddleName, PhoneNumber, SeriesNumberPassport)
+        /// <summary>
+        /// Поле временного хранения
+        /// </summary>
+        private string changedFields;
+
+        /// <summary>
+        /// Свойство поля временного хранения
+        /// </summary>
+        public string СhangedFields
+        {
+            get { return this.changedFields; }
+            set { this.changedFields = value; }
+        }
+
+        public Manager(ulong Id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, DateTime DateTimeEntryModified, string WhatDataChanged, string TypeChange, string WhoChangedData)
+            : base (Id, Surname, Name, MiddleName, PhoneNumber, SeriesNumberPassport, DateTimeEntryModified, WhatDataChanged, TypeChange, WhoChangedData)
         {
             
         }
@@ -19,7 +33,7 @@ namespace BankingProgram
         /// </summary>
         public override string Print()
         {
-            return $"{Id}\t{Surname}\t{Name}\t{MiddleName}\t{PhoneNumber}\t{SeriesNumberPassport}";
+            return $"{Id}\t{Surname}\t{Name}\t{MiddleName}\t{PhoneNumber}\t{SeriesNumberPassport}\t{DateTimeEntryModified}\t{WhatDataChanged}\t{TypeChange}\t{WhoChangedData}";
         }
 
         /// <summary>
@@ -40,11 +54,19 @@ namespace BankingProgram
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.MiddleName = MiddleName);
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = PhoneNumber);
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.SeriesNumberPassport = SeriesNumberPassport);
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.DateTimeEntryModified = DateTime.Now);
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhatDataChanged = changedFields);
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.TypeChange = "Изменена запись");
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhoChangedData = "Менеджер");
             userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.Surname = Surname);
             userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.Name = Name);
             userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.MiddleName = MiddleName);
             userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = PhoneNumber);
             userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.SeriesNumberPassport = SeriesNumberPassport);
+            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.DateTimeEntryModified = DateTime.Now);
+            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhatDataChanged = changedFields);
+            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.TypeChange = "Изменена запись");
+            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhoChangedData = "Менеджер");
         }
 
     }

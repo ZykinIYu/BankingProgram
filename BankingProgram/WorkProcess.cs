@@ -66,8 +66,8 @@ namespace BankingProgram
         {
             for (int i = 0; i < 21; i++)
             {
-                user.Add(new ConsultantUsers(NumberId(), $"Фамилия {i}", $"Имя {i}", $"Отчество {i}", Convert.ToString(80000000000 + randomize.Next(800000000, 900000000)), Convert.ToString(1000000000 + randomize.Next(100000000, 999999999))));
-                userM.Add(new Manager(user[i].Id, user[i].Surname, user[i].Name, user[i].MiddleName, user[i].PhoneNumber, user[i].SeriesNumberPassport));
+                user.Add(new ConsultantUsers(NumberId(), $"Фамилия {i}", $"Имя {i}", $"Отчество {i}", Convert.ToString(80000000000 + randomize.Next(800000000, 900000000)), Convert.ToString(1000000000 + randomize.Next(100000000, 999999999)), DateTime.Now, "-", "Добавлена новая запись", "SysAdmin"));
+                userM.Add(new Manager(user[i].Id, user[i].Surname, user[i].Name, user[i].MiddleName, user[i].PhoneNumber, user[i].SeriesNumberPassport, user[i].DateTimeEntryModified, user[i].WhatDataChanged, user[i].TypeChange, user[i].WhoChangedData));
             }
         }
 
@@ -202,6 +202,7 @@ namespace BankingProgram
                 {
                     if (userM[i].Id == Convert.ToUInt64(correctedUser))
                     {
+                        userM[i].СhangedFields = "Изменено: ";
                         newSurname = userM[i].Surname;
                         newName = userM[i].Name;
                         newMiddleName = userM[i].MiddleName;
@@ -214,6 +215,7 @@ namespace BankingProgram
                             Console.Clear();
                             Console.Write($"Введите новую фамилию: ");
                             newSurname = Console.ReadLine();
+                            userM[i].СhangedFields += "surname";
                         }
 
                         Console.Clear();
@@ -223,6 +225,7 @@ namespace BankingProgram
                             Console.Clear();
                             Console.Write($"Введите новое имя: ");
                             newName = Console.ReadLine();
+                            userM[i].СhangedFields += ", name";
                         }
 
                         Console.Clear();
@@ -232,6 +235,7 @@ namespace BankingProgram
                             Console.Clear();
                             Console.Write($"Введите новое отчество: ");
                             newMiddleName = Console.ReadLine();
+                            userM[i].СhangedFields += ", middleName";
                         }
 
                         Console.Clear();
@@ -244,6 +248,7 @@ namespace BankingProgram
                             if (storage.Length == 11 && storage.All(char.IsDigit) == true)
                             {
                                 newPhoneNumber = storage;
+                                userM[i].СhangedFields += ", phoneNumber";
                             }
                             else
                             {
@@ -263,6 +268,7 @@ namespace BankingProgram
                             if (storage.Length == 9 && storage.All(char.IsDigit) == true || storage.Length == 0 )
                             {
                                 newSeriesNumberPassport = storage;
+                                userM[i].СhangedFields += ", seriesNumberPassport";
                             }
                             else
                             {
