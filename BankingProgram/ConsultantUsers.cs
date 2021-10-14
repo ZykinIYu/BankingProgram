@@ -16,11 +16,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство чтения и записи идентификатора
         /// </summary>
-        public ulong Id
-        {
-            get { return this.id; }
-            set { this.id = value; }
-        }
+        public ulong Id { get; set; }
 
         /// <summary>
         /// Фамилия пользователя
@@ -30,11 +26,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство для чтения фамилии пользователя
         /// </summary>
-        public string Surname
-        {
-            get { return this.surname; }
-            set { this.surname = value; }
-        }
+        public string Surname { get; set; }
 
         /// <summary>
         /// Имя пользователя
@@ -44,11 +36,7 @@ namespace BankingProgram
         /// <summary>
         /// свойствр для чтения имени пользователя
         /// </summary>
-        public string Name
-        {
-            get { return this.name; }
-            set { this.name = value; }
-        }
+        public string Name { get; set; }
 
         /// <summary>
         /// Фамилия пользователя
@@ -58,11 +46,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство для чтения фамилии пользователя
         /// </summary>
-        public string MiddleName
-        {
-            get { return this.middleName; }
-            set { this.middleName = value; }
-        }
+        public string MiddleName { get; set; }
 
         /// <summary>
         /// Номер телефона пользователя
@@ -72,11 +56,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство чтения и записи номера телефона
         /// </summary>
-        public string PhoneNumber
-        {
-            get { return this.phoneNumber; }
-            set { this.phoneNumber = value; }
-        }
+        public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Серия и номер папорта пользователя
@@ -86,11 +66,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство чтения и записи номера телефона
         /// </summary>
-        public string SeriesNumberPassport
-        {
-            get { return this.seriesNumberPassport; }
-            set { this.seriesNumberPassport = value; }
-        }
+        public string SeriesNumberPassport { get; set; }
 
         /// <summary>
         /// Дата и время изменения записи
@@ -100,11 +76,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство поля дата и время изменения записи
         /// </summary>
-        public DateTime DateTimeEntryModified
-        {
-            get { return this.dateTimeEntryModified; }
-            set { this.dateTimeEntryModified = value; }
-        }
+        public DateTime DateTimeEntryModified { get; set; }
 
         /// <summary>
         /// Поле показывающее какие данные изменены
@@ -114,11 +86,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство поля показывающее какие данные изменены
         /// </summary>
-        public string WhatDataChanged
-        {
-            get { return this.whatDataChanged; }
-            set { this.whatDataChanged = value; }
-        }
+        public string WhatDataChanged { get; set; }
 
         /// <summary>
         /// Поле показывающее тип изменения
@@ -128,11 +96,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство поля показывающее тип изменения
         /// </summary>
-        public string TypeChange
-        {
-            get { return this.typeChange; }
-            set { this.typeChange = value; }
-        }
+        public string TypeChange { get; set; }
 
         /// <summary>
         /// Поле показывающее кто изменил
@@ -142,11 +106,7 @@ namespace BankingProgram
         /// <summary>
         /// Свойство поля показывающее кто изменил
         /// </summary>
-        public string WhoChangedData
-        {
-            get { return this.whoChangedData; }
-            set { this.whoChangedData = value; }
-        }
+        public string WhoChangedData { get; set; }
 
         /// <summary>
         /// Конструктор пользователей
