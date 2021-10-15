@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,30 +9,29 @@ namespace BankingProgram
 {
     class WorkProcess
     {
-        List<ConsultantUsers> user;
-        List<Manager> userM;
+        private List<Users> user;
         private ulong id;
-        Random randomize;
-        string proofWork;
-        string typeEmployee;
-        string correctedUser;
-        string newParameterValue;
-        string newSurname;
-        string newName;
-        string newMiddleName;
-        string newPhoneNumber;
-        string newSeriesNumberPassport;
+        private Random randomize;
+        private string proofWork;
+        private string typeEmployee;
+        private string correctedUser;
+        private string newParameterValue;
+        private string newSurname;
+        private string newName;
+        private string newMiddleName;
+        private string newPhoneNumber;
+        private string newSeriesNumberPassport;
 
         /// <summary>
         /// Старт программы
         /// </summary>
         public void Start()
         {
-            user = new List<ConsultantUsers>();
-            userM = new List<Manager>();
+            user = new List<Users>();
             randomize = new Random();
             FillingCollectionWithUsers();
             LoginName();
+            PrintDocument();
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace BankingProgram
             for (int i = 0; i < 21; i++)
             {
                 user.Add(new ConsultantUsers(NumberId(), $"Фамилия {i}", $"Имя {i}", $"Отчество {i}", Convert.ToString(80000000000 + randomize.Next(800000000, 900000000)), Convert.ToString(1000000000 + randomize.Next(100000000, 999999999)), DateTime.Now, "-", "Добавлена новая запись", "SysAdmin"));
-                userM.Add(new Manager(user[i].Id, user[i].Surname, user[i].Name, user[i].MiddleName, user[i].PhoneNumber, user[i].SeriesNumberPassport, user[i].DateTimeEntryModified, user[i].WhatDataChanged, user[i].TypeChange, user[i].WhoChangedData));
+                user.Add(new Manager(NumberId() - 1, $"Фамилия {i}", $"Имя {i}", $"Отчество {i}", Convert.ToString(80000000000 + randomize.Next(800000000, 900000000)), Convert.ToString(1000000000 + randomize.Next(100000000, 999999999)), DateTime.Now, "-", "Добавлена новая запись", "SysAdmin"));
             }
         }
 
@@ -76,19 +76,16 @@ namespace BankingProgram
         /// </summary>
         private void ReadUser()
         {
-            if (typeEmployee == "1")
+            for (int i = 0; i < user.Count; i++)
             {
-                for (int i = 0; i < user.Count; i++)
+                if (typeEmployee == "1" && user[i].GetType() == typeof(ConsultantUsers))
                 {
                     Console.WriteLine($"{user[i].Print()}");
                 }
-            }
 
-            if (typeEmployee == "2")
-            {
-                for (int i = 0; i < user.Count; i++)
+                if (typeEmployee == "2" && user[i].GetType() == typeof(Manager))
                 {
-                    Console.WriteLine($"{userM[i].Print()}");
+                    Console.WriteLine($"{user[i].Print()}");
                 }
             }
         }
@@ -136,12 +133,17 @@ namespace BankingProgram
                 Console.WriteLine();
                 Console.WriteLine($"Какие работы необходимо выполнить: ");
                 Console.WriteLine($"1. Скорректировать данные ");
-                Console.Write($"Необходимо выбрать 1: ");
+                Console.WriteLine($"2. Добавить пользователя ");
+                Console.Write($"Необходимо выбрать 1 или 2: ");
 
                 switch (Console.ReadLine())
                 {
                     case "1":
                         ChangingParametersManager();
+                        break;
+
+                    case "2":
+                        AddNewUser();
                         break;
                 }
             }
@@ -168,9 +170,9 @@ namespace BankingProgram
                 {
                     for (int i = 0; i < user.Count; i++)
                     {
-                        if (user[i].Id == Convert.ToUInt64(correctedUser))
+                        if (user[i].Id == Convert.ToUInt64(correctedUser) && user[i].GetType() == typeof(ConsultantUsers))
                         {
-                            user[i].ParameterСhange(Convert.ToUInt64(correctedUser), user[i].Surname, user[i].Name, user[i].MiddleName, newParameterValue, user[i].SeriesNumberPassport, user, userM);
+                            user[i].ParameterСhange(Convert.ToUInt64(correctedUser), user[i].Surname, user[i].Name, user[i].MiddleName, newParameterValue, user[i].SeriesNumberPassport, user);
                         }
                     }
                 }
@@ -200,14 +202,14 @@ namespace BankingProgram
 
                 for (int i = 0; i < user.Count; i++)
                 {
-                    if (userM[i].Id == Convert.ToUInt64(correctedUser))
+                    if (user[i].Id == Convert.ToUInt64(correctedUser) && user[i].GetType() == typeof(Manager))
                     {
-                        userM[i].СhangedFields = "Изменено: ";
-                        newSurname = userM[i].Surname;
-                        newName = userM[i].Name;
-                        newMiddleName = userM[i].MiddleName;
-                        newPhoneNumber = userM[i].PhoneNumber;
-                        newSeriesNumberPassport = userM[i].SeriesNumberPassport;
+                        user[i].СhangedFields = "Изменено: ";
+                        newSurname = user[i].Surname;
+                        newName = user[i].Name;
+                        newMiddleName = user[i].MiddleName;
+                        newPhoneNumber = user[i].PhoneNumber;
+                        newSeriesNumberPassport = user[i].SeriesNumberPassport;
                         Console.Clear();
                         Console.Write($"Необходимо изменить фамилию? да/нет: ");
                         if (Console.ReadLine().ToLower() == "да")
@@ -215,7 +217,7 @@ namespace BankingProgram
                             Console.Clear();
                             Console.Write($"Введите новую фамилию: ");
                             newSurname = Console.ReadLine();
-                            userM[i].СhangedFields += "surname";
+                            user[i].СhangedFields += "surname";
                         }
 
                         Console.Clear();
@@ -225,7 +227,7 @@ namespace BankingProgram
                             Console.Clear();
                             Console.Write($"Введите новое имя: ");
                             newName = Console.ReadLine();
-                            userM[i].СhangedFields += ", name";
+                            user[i].СhangedFields += ", name";
                         }
 
                         Console.Clear();
@@ -235,7 +237,7 @@ namespace BankingProgram
                             Console.Clear();
                             Console.Write($"Введите новое отчество: ");
                             newMiddleName = Console.ReadLine();
-                            userM[i].СhangedFields += ", middleName";
+                            user[i].СhangedFields += ", middleName";
                         }
 
                         Console.Clear();
@@ -248,7 +250,7 @@ namespace BankingProgram
                             if (storage.Length == 11 && storage.All(char.IsDigit) == true)
                             {
                                 newPhoneNumber = storage;
-                                userM[i].СhangedFields += ", phoneNumber";
+                                user[i].СhangedFields += ", phoneNumber";
                             }
                             else
                             {
@@ -265,19 +267,19 @@ namespace BankingProgram
                             Console.Clear();
                             Console.Write($"Введите новую серию и номер паспорта: ");
                             var storage = Console.ReadLine();
-                            if (storage.Length == 9 && storage.All(char.IsDigit) == true || storage.Length == 0 )
+                            if (storage.Length == 10 && storage.All(char.IsDigit) == true || storage.Length == 0 )
                             {
                                 newSeriesNumberPassport = storage;
-                                userM[i].СhangedFields += ", seriesNumberPassport";
+                                user[i].СhangedFields += ", seriesNumberPassport";
                             }
                             else
                             {
                                 Console.Clear();
-                                Console.Write($"Серия и номер паспорта должна содержать 9 цифр, либо можно поле не заполнять");
+                                Console.Write($"Серия и номер паспорта должна содержать 10 цифр, либо можно поле не заполнять");
                                 Console.ReadKey();
                             }
                         }
-                        userM[i].ParameterСhange(Convert.ToUInt64(correctedUser), newSurname, newName, newMiddleName, newPhoneNumber, newSeriesNumberPassport, user, userM);
+                        user[i].ParameterСhange(Convert.ToUInt64(correctedUser), newSurname, newName, newMiddleName, newPhoneNumber, newSeriesNumberPassport, user);
                     } 
                 }
                 break;
@@ -302,6 +304,130 @@ namespace BankingProgram
                     break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Печать списка пользователей в документы
+        /// </summary>
+        private void PrintDocument()
+        {
+            using (StreamWriter sw = new StreamWriter("consultant.csv", false, Encoding.Unicode))
+            {
+                sw.WriteLine($"ID\tФамилия\tИмя\tОтчество\tНомер телефона\tСерия и номер паспорта\tВремя изменения\tЧто изменено\tТип изменения\tКто изменил");
+                for (int i = 0; i < user.Count; i++)
+                {
+                    if (user[i].GetType() == typeof(ConsultantUsers))
+                    {
+                        sw.WriteLine(user[i].Print());
+                    }
+                }
+            }
+
+            using (StreamWriter sw = new StreamWriter("manager.csv", false, Encoding.Unicode))
+            {
+                sw.WriteLine($"ID\tФамилия\tИмя\tОтчество\tНомер телефона\tСерия и номер паспорта\tВремя изменения\tЧто изменено\tТип изменения\tКто изменил");
+                for (int i = 0; i < user.Count; i++)
+                {
+                    if (user[i].GetType() == typeof(Manager))
+                    {
+                        sw.WriteLine(user[i].Print());
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Добавление нового пользователя
+        /// </summary>
+        private void AddNewUser()
+        {
+            for (; ; )
+            {
+                Console.Clear();
+                Console.Write($"Введите фамилию: ");
+                newSurname = Console.ReadLine();
+                if (!string.IsNullOrEmpty(newSurname))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.Write($"Данное поле обязательно для заполнения");
+                    Console.ReadKey();
+                }
+            }
+
+            for (; ; )
+            {
+                Console.Clear();
+                Console.Write($"Введите имя: ");
+                newName = Console.ReadLine();
+                if (!string.IsNullOrEmpty(newName))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.Write($"Данное поле обязательно для заполнения");
+                    Console.ReadKey();
+                }
+            }
+
+            for (; ; )
+            {
+                Console.Clear();
+                Console.Write($"Введите отчество: ");
+                newMiddleName = Console.ReadLine();
+                if (!string.IsNullOrEmpty(newMiddleName))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.Write($"Данное поле обязательно для заполнения");
+                    Console.ReadKey();
+                }
+            }
+
+            for (; ; )
+            {
+                Console.Clear();
+                Console.Write($"Введите номер телефона: ");
+                var storage = Console.ReadLine();
+                if (storage.Length == 11 && storage.All(char.IsDigit) == true)
+                {
+                    newPhoneNumber = storage;
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.Write($"Номер телефона, является обязательным полем, оно не может быть пустым, должно содержать только цифры и иметь ровно 11 символов");
+                    Console.ReadKey();
+                }
+            }
+
+            for (; ; )
+            {
+                Console.Clear();
+                Console.Write($"Введите серию и номер паспорта: ");
+                var storage = Console.ReadLine();
+                if (storage.Length == 10 && storage.All(char.IsDigit) == true || storage.Length == 0)
+                {
+                    newSeriesNumberPassport = storage;
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.Write($"Серия и номер паспорта должна содержать 10 цифр, либо можно поле не заполнять");
+                    Console.ReadKey();
+                }
+            }
+            user[user.Count-1].AddEntry(NumberId(), newSurname, newName, newMiddleName, newPhoneNumber, newSeriesNumberPassport, user);
         }
     }
 }

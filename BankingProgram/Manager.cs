@@ -9,19 +9,18 @@ namespace BankingProgram
     class Manager : ConsultantUsers
     {
         /// <summary>
-        /// Поле временного хранения
+        /// Конструктор для создания пользователей
         /// </summary>
-        private string changedFields;
-
-        /// <summary>
-        /// Свойство поля временного хранения
-        /// </summary>
-        public string СhangedFields
-        {
-            get { return this.changedFields; }
-            set { this.changedFields = value; }
-        }
-
+        /// <param name="Id"></param>
+        /// <param name="Surname"></param>
+        /// <param name="Name"></param>
+        /// <param name="MiddleName"></param>
+        /// <param name="PhoneNumber"></param>
+        /// <param name="SeriesNumberPassport"></param>
+        /// <param name="DateTimeEntryModified"></param>
+        /// <param name="WhatDataChanged"></param>
+        /// <param name="TypeChange"></param>
+        /// <param name="WhoChangedData"></param>
         public Manager(ulong Id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, DateTime DateTimeEntryModified, string WhatDataChanged, string TypeChange, string WhoChangedData)
             : base (Id, Surname, Name, MiddleName, PhoneNumber, SeriesNumberPassport, DateTimeEntryModified, WhatDataChanged, TypeChange, WhoChangedData)
         {
@@ -47,7 +46,7 @@ namespace BankingProgram
         /// <param name="SeriesNumberPassport">Серия и номер паспорта</param>
         /// <param name="user">Коллекция пользователей для консультанта</param>
         /// <param name="userM">Коллекция пользователей для менеджера</param>
-        public override void ParameterСhange(ulong id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, List<ConsultantUsers> user, List<Manager> userM)
+        public override void ParameterСhange(ulong id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, List<Users> user)
         {
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.Surname = Surname);
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.Name = Name);
@@ -55,18 +54,26 @@ namespace BankingProgram
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = PhoneNumber);
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.SeriesNumberPassport = SeriesNumberPassport);
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.DateTimeEntryModified = DateTime.Now);
-            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhatDataChanged = changedFields);
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhatDataChanged = СhangedFields);
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.TypeChange = "Изменена запись");
             user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhoChangedData = "Менеджер");
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.Surname = Surname);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.Name = Name);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.MiddleName = MiddleName);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = PhoneNumber);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.SeriesNumberPassport = SeriesNumberPassport);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.DateTimeEntryModified = DateTime.Now);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhatDataChanged = changedFields);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.TypeChange = "Изменена запись");
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhoChangedData = "Менеджер");
+        }
+
+        /// <summary>
+        /// Метод добавление новой записи
+        /// </summary>
+        /// <param name="Id">Идентификатор</param>
+        /// <param name="Surname">Фамилия</param>
+        /// <param name="Name">Имя</param>
+        /// <param name="MiddleName">Отчество</param>
+        /// <param name="PhoneNumber">Номер телефона</param>
+        /// <param name="SeriesNumberPassport">Серия и номер паспорта</param>
+        /// <param name="user">Коллекция пользователей</param>
+        public override void AddEntry(ulong Id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, List<Users> user)
+        {
+            var data = DateTime.Now;
+            user.Add(new Manager(Id, Surname, Name, MiddleName, PhoneNumber, SeriesNumberPassport, data, "-", "Добавлена новая запись", "Менеджер"));
+            user.Add(new ConsultantUsers(Id, Surname, Name, MiddleName, PhoneNumber, SeriesNumberPassport, data, "-", "Добавлена новая запись", "Менеджер"));
         }
 
     }

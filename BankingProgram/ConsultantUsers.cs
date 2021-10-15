@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace BankingProgram
 {
-    class ConsultantUsers
+    class ConsultantUsers : Users
     {
-        /// <summary>
-        /// идентификатор пользователя
-        /// </summary>
-        private ulong id;
 
         /// <summary>
         /// Свойство чтения и записи идентификатора
@@ -19,19 +15,9 @@ namespace BankingProgram
         public ulong Id { get; set; }
 
         /// <summary>
-        /// Фамилия пользователя
-        /// </summary>
-        private string surname;
-
-        /// <summary>
         /// Свойство для чтения фамилии пользователя
         /// </summary>
         public string Surname { get; set; }
-
-        /// <summary>
-        /// Имя пользователя
-        /// </summary>
-        private string name;
 
         /// <summary>
         /// свойствр для чтения имени пользователя
@@ -39,19 +25,9 @@ namespace BankingProgram
         public string Name { get; set; }
 
         /// <summary>
-        /// Фамилия пользователя
-        /// </summary>
-        private string middleName;
-
-        /// <summary>
-        /// Свойство для чтения фамилии пользователя
+        /// Свойство для чтения отчества пользователя
         /// </summary>
         public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Номер телефона пользователя
-        /// </summary>
-        private string phoneNumber;
 
         /// <summary>
         /// Свойство чтения и записи номера телефона
@@ -59,19 +35,9 @@ namespace BankingProgram
         public string PhoneNumber { get; set; }
 
         /// <summary>
-        /// Серия и номер папорта пользователя
-        /// </summary>
-        private string seriesNumberPassport;
-
-        /// <summary>
         /// Свойство чтения и записи номера телефона
         /// </summary>
         public string SeriesNumberPassport { get; set; }
-
-        /// <summary>
-        /// Дата и время изменения записи
-        /// </summary>
-        private DateTime dateTimeEntryModified;
 
         /// <summary>
         /// Свойство поля дата и время изменения записи
@@ -79,19 +45,9 @@ namespace BankingProgram
         public DateTime DateTimeEntryModified { get; set; }
 
         /// <summary>
-        /// Поле показывающее какие данные изменены
-        /// </summary>
-        private string whatDataChanged;
-
-        /// <summary>
         /// Свойство поля показывающее какие данные изменены
         /// </summary>
         public string WhatDataChanged { get; set; }
-
-        /// <summary>
-        /// Поле показывающее тип изменения
-        /// </summary>
-        private string typeChange;
 
         /// <summary>
         /// Свойство поля показывающее тип изменения
@@ -99,14 +55,14 @@ namespace BankingProgram
         public string TypeChange { get; set; }
 
         /// <summary>
-        /// Поле показывающее кто изменил
-        /// </summary>
-        private string whoChangedData;
-
-        /// <summary>
         /// Свойство поля показывающее кто изменил
         /// </summary>
         public string WhoChangedData { get; set; }
+
+        /// <summary>
+        /// Свойство поля временного хранения
+        /// </summary>
+        public string СhangedFields { get; set; }
 
         /// <summary>
         /// Конструктор пользователей
@@ -119,16 +75,16 @@ namespace BankingProgram
         /// <param name="SeriesNumberPassport">серия и номер паспорта</param>
         public ConsultantUsers(ulong Id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, DateTime DateTimeEntryModified, string WhatDataChanged, string TypeChange, string WhoChangedData)
         {
-            this.id = Id;
-            this.surname = Surname;
-            this.name = Name;
-            this.middleName = MiddleName;
-            this.phoneNumber = PhoneNumber;
-            this.seriesNumberPassport = SeriesNumberPassport;
-            this.dateTimeEntryModified = DateTimeEntryModified;
-            this.whatDataChanged = WhatDataChanged;
-            this.typeChange = TypeChange;
-            this.whoChangedData = WhoChangedData;
+            this.Id = Id;
+            this.Surname = Surname;
+            this.Name = Name;
+            this.MiddleName = MiddleName;
+            this.PhoneNumber = PhoneNumber;
+            this.SeriesNumberPassport = SeriesNumberPassport;
+            this.DateTimeEntryModified = DateTimeEntryModified;
+            this.WhatDataChanged = WhatDataChanged;
+            this.TypeChange = TypeChange;
+            this.WhoChangedData = WhoChangedData;
         }
 
         /// <summary>
@@ -136,7 +92,7 @@ namespace BankingProgram
         /// </summary>
         public virtual string Print()
         {
-            return $"{id}\t{surname}\t{name}\t{middleName}\t{phoneNumber}\t{HidingSeriesAndNumberPassport()}\t{dateTimeEntryModified}\t{whatDataChanged}\t{typeChange}\t{whoChangedData}";
+            return $"{Id}\t{Surname}\t{Name}\t{MiddleName}\t{PhoneNumber}\t{HidingSeriesAndNumberPassport()}\t{DateTimeEntryModified}\t{WhatDataChanged}\t{TypeChange}\t{WhoChangedData}";
         }
 
         /// <summary>
@@ -145,13 +101,13 @@ namespace BankingProgram
         /// <returns></returns>
         private string HidingSeriesAndNumberPassport()
         {
-            if (seriesNumberPassport.Length != 0)
+            if (SeriesNumberPassport.Length != 0)
             {
                 return $"**********";
             }
             else
             {
-                return Convert.ToString(seriesNumberPassport);
+                return Convert.ToString(SeriesNumberPassport);
             }
         }
 
@@ -166,18 +122,23 @@ namespace BankingProgram
         /// <param name="SeriesNumberPassport">Серия и номер паспорта</param>
         /// <param name="user">Коллекция пользователей для консультанта</param>
         /// <param name="userM">Коллекция пользователей для менеджера</param>
-        public virtual void ParameterСhange(ulong id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, List<ConsultantUsers> user, List<Manager> userM)
+        public virtual void ParameterСhange(ulong id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, List<Users> user)
         {
-            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.phoneNumber = PhoneNumber);
-            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.dateTimeEntryModified = DateTime.Now);
-            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.whatDataChanged = "Изменено: phoneNumber");
-            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.typeChange = "Изменена запись");
-            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.whoChangedData = "Консультант");
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = PhoneNumber);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.dateTimeEntryModified = DateTime.Now);
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.whatDataChanged = "Изменено: phoneNumber");
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.typeChange = "Изменена запись");
-            userM.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.whoChangedData = "Консультант");
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.PhoneNumber = PhoneNumber);
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.DateTimeEntryModified = DateTime.Now);
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhatDataChanged = "Изменено: phoneNumber");
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.TypeChange = "Изменена запись");
+            user.FindAll(us => us.Id == Convert.ToUInt64(id)).ForEach(us => us.WhoChangedData = "Консультант");
         }
+
+        /// <summary>
+        /// Добавление новой записи
+        /// </summary>
+        public virtual void AddEntry(ulong id, string Surname, string Name, string MiddleName, string PhoneNumber, string SeriesNumberPassport, List<Users> user)
+        {
+            Console.WriteLine("У консультанта нет возможности добавлять пользователей");
+            Console.ReadKey();
+        }
+
     }
 }
